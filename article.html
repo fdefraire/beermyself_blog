@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hops & Hard-Lines, l'IPA Apex — BeerMyself</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Inter+Tight:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   BeerMyself · Article page
+   ═══════════════════════════════════════════════ */
+:root{
+  --paper:#F0EAD6;
+  --paper-warm:#E8DFC4;
+  --paper-soft:#F6F1E0;
+  --ink:#1A1A1A;
+  --ink-soft:#3A3A3A;
+  --ink-faint:rgba(26,26,26,.55);
+  --line:rgba(26,26,26,.08);
+  --amber:#F5A800;
+  --amber-deep:#C98800;
+  --amber-faint:rgba(245,168,0,.18);
+  --sage:#9DAE8A;
+  --sage-deep:#6F8466;
+  --sage-faint:rgba(157,174,138,.22);
+  --night:#141413;
+  --cream:#F0EAD6;
+  --cream-dim:rgba(240,234,214,.65);
+
+  --font-serif:'Fraunces','Playfair Display',Georgia,serif;
+  --font-sans:'Inter Tight','Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:'IBM Plex Mono','JetBrains Mono',ui-monospace,monospace;
+
+  --rad-sm:8px;
+  --rad-md:14px;
+  --rad-lg:20px;
+  --rad-pill:999px;
+
+  --inner:1880px;
+  --pad-x:clamp(14px,1.4vw,22px);
+
+  --ease:cubic-bezier(.2,0,0,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0;padding:0}
+img{max-width:100%;display:block;border:0}
+ul,ol{list-style:none}
+button{font:inherit;background:none;border:0;cursor:pointer;color:inherit}
+a{color:inherit;text-decoration:none}
+
+html{scroll-behavior:smooth;font-size:14px}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-sans);
+  font-weight:300;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;opacity:.05;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+}
+.inner{max-width:var(--inner);margin:0 auto;padding:0 var(--pad-x);position:relative;z-index:2}
+
+/* ─── NAV ─── */
+.nav{
+  background:var(--night);color:var(--cream);
+  position:sticky;top:0;z-index:50;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  background-image:
+    radial-gradient(circle at 6px 4px,rgba(245,168,0,.55) 1px,transparent 1.4px),
+    radial-gradient(circle at 14px 4px,rgba(157,174,138,.45) 1px,transparent 1.4px);
+  background-size:24px 8px,24px 8px;
+  background-repeat:repeat-x,repeat-x;
+  background-position:top left,top 12px;
+}
+.nav__inner{
+  display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;height:72px;gap:24px;padding-top:14px;
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-sans);font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1;color:var(--cream);
+}
+.brand__mark{width:30px;height:28px}
+.brand__mark svg{width:100%;height:100%;display:block}
+.brand b{font-weight:700}
+.nav__menu{display:none;justify-self:center;gap:28px;font-family:var(--font-sans);font-size:13.5px;font-weight:500}
+.nav__menu a{color:var(--cream);transition:color .2s var(--ease)}
+.nav__menu a:hover,.nav__menu a.active{color:var(--amber)}
+.nav__right{display:flex;gap:14px;align-items:center;justify-self:end}
+.nav__icon{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.08);color:var(--cream);
+  transition:background .2s var(--ease),color .2s var(--ease);
+}
+.nav__icon:hover{background:var(--amber);color:var(--night)}
+.nav__icon svg{width:16px;height:16px}
+.btn--submit{
+  background:transparent;color:var(--cream);
+  border:1px solid rgba(240,234,214,.25);
+  padding:11px 22px;font-size:13px;font-weight:500;font-family:var(--font-sans);
+  border-radius:var(--rad-pill);
+  transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease);
+}
+.btn--submit:hover{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+@media(min-width:980px){.nav__menu{display:flex}}
+
+/* ─── ARTICLE HERO (full-bleed image + overlay title) ─── */
+.art-hero{
+  position:relative;
+  min-height:clamp(440px,62vh,680px);
+  overflow:hidden;
+  color:var(--cream);
+  background:var(--night);
+}
+.art-hero__image{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+.art-hero__overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(15,15,14,0.10) 0%,
+    rgba(15,15,14,0.35) 50%,
+    rgba(15,15,14,0.78) 100%);
+}
+.art-hero__content{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:inherit;
+  padding:90px var(--pad-x) 60px;
+  max-width:1280px;margin:0 auto;
+  gap:18px;
+}
+.art-hero__eyebrow{
+  display:inline-flex;align-items:center;gap:14px;
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;
+  color:var(--amber);
+}
+.art-hero__eyebrow::before{
+  content:'';width:32px;height:1px;background:var(--amber);
+}
+.art-hero__title{
+  font-family:var(--font-sans);
+  font-weight:800;
+  font-size:clamp(40px,5.6vw,84px);
+  line-height:.98;letter-spacing:-.028em;
+  color:var(--cream);
+  max-width:18ch;
+}
+.art-hero__title em{
+  font-style:italic;font-family:var(--font-serif);font-weight:900;
+  font-variation-settings:"opsz" 144;
+  color:var(--amber);
+}
+.art-hero__title .leaf{
+  font-style:italic;font-family:var(--font-serif);font-weight:900;
+  font-variation-settings:"opsz" 144;
+  color:var(--sage);
+}
+.art-hero__lead{
+  font-family:var(--font-sans);font-size:18px;font-weight:300;line-height:1.5;
+  color:var(--cream);max-width:54ch;opacity:.95;
+}
+
+/* ─── META BAR ─── */
+.art-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 0;
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;gap:18px;
+  max-width:920px;margin:0 auto;
+}
+.art-meta__author{display:flex;align-items:center;gap:14px}
+.art-meta__avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber),var(--sage-deep));
+  border:2px solid var(--paper);flex-shrink:0;
+}
+.art-meta__name{font-family:var(--font-sans);font-size:15px;font-weight:300;color:var(--ink)}
+.art-meta__name b{font-weight:600;color:var(--ink)}
+.art-meta__details{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;
+  color:var(--ink-faint);text-transform:uppercase;margin-top:3px;
+}
+.art-meta__actions{display:flex;gap:8px;align-items:center}
+.art-meta__like,.art-meta__share{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border-radius:var(--rad-pill);
+  background:transparent;border:1px solid var(--line);
+  color:var(--ink-soft);
+  font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;font-weight:500;
+  transition:border-color .2s var(--ease),color .2s var(--ease);
+}
+.art-meta__like:hover,.art-meta__share:hover{border-color:var(--sage-deep);color:var(--sage-deep);background:var(--sage-faint)}
+.art-meta__like .heart{color:var(--amber);font-size:16px;line-height:1}
+.art-meta__share svg{width:14px;height:14px}
+
+/* ─── ARTICLE BODY ─── */
+.art-body{
+  max-width:720px;margin:0 auto;
+  padding:48px var(--pad-x) 56px;
+}
+.art-body p{
+  font-size:18px;line-height:1.72;font-weight:300;color:var(--ink);
+  margin-bottom:1.4em;
+}
+.art-body__lead{
+  font-family:var(--font-serif)!important;
+  font-style:italic;font-weight:400!important;
+  font-size:24px!important;line-height:1.45!important;
+  color:var(--ink-soft);
+  margin-bottom:2em!important;
+  padding-bottom:1.8em;
+  border-bottom:1px solid var(--line);
+  font-variation-settings:"opsz" 144;
+}
+.art-body h2{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:clamp(26px,2.6vw,34px);line-height:1.1;letter-spacing:-.015em;
+  color:var(--ink);
+  margin:2.2em 0 .7em;
+  position:relative;padding-left:26px;
+  font-variation-settings:"opsz" 96;
+}
+.art-body h2::before{
+  content:'';position:absolute;left:0;top:.45em;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 0 4px var(--amber-faint);
+}
+.art-body h2 em{font-style:italic;color:var(--amber-deep)}
+.art-body strong{font-weight:600;color:var(--ink)}
+.art-body em{font-style:italic;color:var(--amber-deep)}
+.art-body a{
+  color:var(--ink);text-decoration:underline;
+  text-decoration-color:var(--amber-faint);text-decoration-thickness:2px;
+  text-underline-offset:3px;transition:text-decoration-color .2s var(--ease);
+}
+.art-body a:hover{text-decoration-color:var(--amber)}
+
+.art-body__figure{
+  margin:2.4em -60px;
+  border-radius:18px;overflow:hidden;
+  background:var(--paper-warm);
+}
+@media(max-width:820px){.art-body__figure{margin:2.4em 0}}
+.art-body__figure img{
+  width:100%;height:auto;display:block;
+  aspect-ratio:16/9;object-fit:cover;
+}
+.art-body__figure figcaption{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;
+  color:var(--ink-faint);text-align:center;
+  padding:14px 18px 0;text-transform:uppercase;
+}
+
+.pullquote{
+  font-family:var(--font-serif);
+  font-style:italic;font-weight:400;
+  font-size:clamp(24px,2.4vw,30px);line-height:1.32;
+  color:var(--ink);
+  margin:2.6em 0;
+  padding-left:24px;
+  border-left:4px solid var(--sage-deep);
+  max-width:34ch;
+  font-variation-settings:"opsz" 144;
+}
+
+.tasting{
+  background:var(--amber-faint);
+  border-radius:20px;
+  padding:32px 30px;
+  margin:2.6em 0;
+  border:1px solid rgba(245,168,0,.25);
+}
+.tasting__head{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  color:var(--amber-deep);
+  margin-bottom:18px;
+}
+.tasting__dot{
+  width:12px;height:12px;border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 0 4px rgba(245,168,0,.25);
+}
+.tasting__list{display:grid;gap:0;margin:0;padding:0}
+.tasting__row{
+  display:grid;grid-template-columns:130px 1fr;gap:18px;
+  padding:14px 0;border-top:1px solid rgba(201,136,0,.22);
+}
+.tasting__row:first-child{border-top:0;padding-top:0}
+.tasting__row dt{
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  color:var(--amber-deep);
+  padding-top:4px;
+}
+.tasting__row dd{
+  font-family:var(--font-sans);font-size:15px;font-weight:400;line-height:1.5;
+  color:var(--ink);margin:0;
+}
+@media(max-width:600px){
+  .tasting__row{grid-template-columns:1fr;gap:4px}
+}
+
+/* ─── END OF ARTICLE ─── */
+.art-end{
+  max-width:720px;margin:0 auto;
+  padding:8px var(--pad-x) 60px;
+}
+.art-end__tags{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-bottom:48px;
+}
+.art-end__tags .tag{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  padding:8px 14px;border-radius:var(--rad-pill);
+  background:var(--amber-faint);color:var(--amber-deep);
+  border:1px solid rgba(201,136,0,.22);
+  transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease);
+}
+.art-end__tags .tag:hover{background:var(--sage-deep);color:var(--cream);border-color:var(--sage-deep)}
+
+.art-end__bio{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:28px 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  margin-bottom:32px;
+}
+.art-end__bio .art-meta__avatar{width:56px;height:56px}
+.art-end__bio-name{
+  font-family:var(--font-serif);font-weight:700;font-size:19px;color:var(--ink);
+  margin-bottom:4px;
+  font-variation-settings:"opsz" 96;
+}
+.art-end__bio-text{
+  font-family:var(--font-sans);font-size:14.5px;line-height:1.6;font-weight:300;
+  color:var(--ink-soft);margin:0;
+}
+.art-end__bio-follow{
+  display:inline-block;margin-top:8px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--amber-deep);
+  border-bottom:1px solid var(--amber-deep);padding-bottom:2px;
+}
+.art-end__bio-follow:hover{color:var(--sage-deep);border-bottom-color:var(--sage-deep)}
+
+.art-end__nav{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.art-end__nav-link{
+  display:block;padding:22px 24px;border-radius:16px;
+  background:#fff;border:1px solid var(--line);
+  position:relative;overflow:hidden;
+  transition:transform .25s var(--ease),border-color .25s var(--ease);
+}
+/* Sage fill rising from the bottom on hover — luminous meniscus at top (no white foam) */
+.art-end__nav-link::before{
+  content:'';
+  position:absolute;left:0;right:0;bottom:0;
+  height:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(196,218,170,0.92) 0px,
+    rgba(168,190,140,0.75) 2px,
+    rgba(157,174,138,0.78) 5px,
+    rgba(111,132,102,0.90) 32%,
+    rgba(111,132,102,0.98) 100%);
+  transition:height .85s cubic-bezier(.45,.05,.35,1);
+}
+.art-end__nav-link:hover{border-color:var(--sage-deep);transform:translateY(-3px)}
+.art-end__nav-link:hover::before{height:100%}
+.art-end__nav-link > *{position:relative;z-index:1;transition:color .4s var(--ease)}
+.art-end__nav-link:hover .art-end__nav-label{color:rgba(240,234,214,.78)}
+.art-end__nav-link:hover .art-end__nav-title{color:var(--cream)}
+.art-end__nav-link.next{text-align:right}
+.art-end__nav-label{
+  display:block;
+  font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint);margin-bottom:8px;
+}
+.art-end__nav-title{
+  display:block;
+  font-family:var(--font-serif);font-weight:700;font-size:17px;line-height:1.2;
+  color:var(--ink);
+}
+@media(max-width:640px){.art-end__nav{grid-template-columns:1fr}}
+
+/* ─── RELATED (À LIRE ENSUITE) ─── */
+.related{margin-top:24px}
+.s-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:60px 0 30px;gap:24px;flex-wrap:wrap;
+}
+.s-head__title{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink);
+}
+.s-head__title::before{
+  content:'';width:12px;height:12px;border-radius:50%;
+  background:var(--amber);box-shadow:0 0 0 4px var(--amber-faint);
+}
+.s-head__link{
+  font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);
+  display:inline-flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--ink);padding-bottom:3px;
+  transition:color .2s var(--ease),border-color .2s var(--ease);
+}
+.s-head__link:hover{color:var(--amber-deep);border-color:var(--amber-deep)}
+.gallery{
+  display:grid;grid-template-columns:1fr;gap:56px 28px;
+}
+@media(min-width:680px){.gallery{grid-template-columns:repeat(2,1fr);gap:64px 32px}}
+@media(min-width:1100px){.gallery{grid-template-columns:repeat(3,1fr);gap:72px 40px}}
+
+.card{display:flex;flex-direction:column;gap:20px;cursor:pointer}
+.card__media{
+  position:relative;border-radius:20px;overflow:hidden;
+  aspect-ratio:4/5;background:var(--paper-warm);
+}
+.card__media .art,.card__media img{transition:transform .6s var(--ease)}
+.card:hover .card__media .art,.card:hover .card__media img{transform:scale(1.03)}
+.card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.card__media::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.20) 100%);
+  pointer-events:none;
+}
+.card__media::before{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(255,212,102,0.92) 0px,
+    rgba(255,176,52,0.72) 2px,
+    rgba(245,168,0,0.58) 5px,
+    rgba(245,168,0,0.52) 18px,
+    rgba(245,168,0,0.60) 40%,
+    rgba(201,136,0,0.66) 100%);
+  transition:height .9s cubic-bezier(.45,.05,.35,1);
+}
+.card:hover .card__media::before{height:100%}
+.card__like{
+  position:absolute;top:16px;left:18px;z-index:2;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:12px;font-weight:500;color:#fff;
+  text-shadow:0 1px 6px rgba(0,0,0,.35);
+}
+.card__like .heart{color:var(--amber);font-size:20px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.card__cat{
+  position:absolute;top:16px;right:16px;z-index:2;
+  font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  padding:6px 11px;border-radius:var(--rad-pill);
+  background:rgba(255,255,255,.94);backdrop-filter:blur(6px);color:var(--ink);
+}
+.card__cat.amber{background:var(--amber);color:var(--ink)}
+.card__cat.sage{background:var(--sage-deep);color:var(--cream)}
+.card__cat.dark{background:var(--ink);color:var(--cream)}
+.card__cat.paper{background:var(--paper-soft);color:var(--ink)}
+.card__cat.amber-deep{background:var(--amber-deep);color:var(--cream)}
+
+.card__rubrique{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:8px;
+}
+
+.card__title{
+  font-family:var(--font-serif);font-weight:700;
+  font-size:clamp(20px,1.5vw,26px);line-height:1.15;letter-spacing:-.018em;
+  color:var(--ink);margin:0 0 8px;
+  font-variation-settings:"opsz" 96;
+}
+.card__title em{font-style:italic;color:var(--amber-deep);font-weight:700;font-variation-settings:"opsz" 96}
+.card__meta{font-family:var(--font-sans);font-size:14px;font-weight:300;color:var(--ink-soft)}
+.card__meta b{color:var(--ink);font-weight:600}
+
+/* gradient art (mock) */
+.art{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);color:rgba(255,255,255,.92);text-align:center;font-weight:700;line-height:1;padding:18px}
+.art--amber{background:radial-gradient(circle at 30% 25%,#FFD466,var(--amber) 35%,var(--amber-deep) 100%)}
+.art--sage{background:radial-gradient(circle at 70% 30%,#C7D6B7,var(--sage) 40%,var(--sage-deep) 100%)}
+.art--mix-1{background:linear-gradient(150deg,var(--sage-deep) 0%,var(--amber) 100%)}
+.art--mix-2{background:linear-gradient(150deg,var(--amber) 0%,var(--paper-warm) 70%);color:var(--ink)}
+.art__big{font-size:clamp(38px,5vw,68px);letter-spacing:-.02em}
+.art__big em{font-style:italic;color:#fff;opacity:.85;font-weight:400}
+.art__sub{font-family:var(--font-mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:400;margin-top:14px;opacity:.7}
+
+/* ─── NEWSLETTER (THE GOOD FOAM) ─── */
+.foamletter{
+  margin-top:96px;background-color:var(--night);color:var(--cream);
+  position:relative;overflow:hidden;
+  padding:clamp(72px,9vw,140px) var(--pad-x) clamp(80px,10vw,150px);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'><rect width='140' height='140' fill='%23141413'/><circle cx='70' cy='70' r='62' fill='%231C1B19'/><circle cx='70' cy='70' r='24' fill='none' stroke='%232E2C28' stroke-width='5'/><circle cx='70' cy='70' r='8' fill='%23141413'/></svg>");
+  background-size:140px 140px;background-repeat:repeat;background-position:center;
+}
+.foamletter__inner{position:relative;z-index:2;max-width:920px;margin:0 auto;text-align:center}
+.foamletter__eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:24px;
+}
+.foamletter__eyebrow::before{
+  content:'';
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--amber);
+  box-shadow:0 0 0 4px rgba(245,168,0,.18);
+}
+.foamletter__archive{
+  display:inline-block;
+  margin-top:20px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--cream);
+  border-bottom:1px solid rgba(240,234,214,.4);
+  padding-bottom:3px;
+  transition:color .2s var(--ease),border-color .2s var(--ease);
+}
+.foamletter__archive:hover{
+  color:var(--amber);
+  border-color:var(--amber);
+}
+.foamletter__title{
+  font-family:var(--font-sans);font-weight:800;
+  font-size:clamp(40px,5vw,68px);line-height:1.05;letter-spacing:-.02em;
+  margin-bottom:24px;color:var(--cream);
+}
+.foamletter__sub{
+  font-family:var(--font-sans);font-size:clamp(15px,1.3vw,18px);line-height:1.5;font-weight:300;
+  color:var(--cream);max-width:46ch;margin:0 auto 44px;
+}
+.foamletter__form{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  max-width:880px;margin:0 auto;
+}
+.foamletter__input{
+  flex:1 1 360px;min-width:240px;
+  background:var(--sage-deep);border:0;outline:0;
+  padding:24px 28px;color:var(--cream);
+  font-family:var(--font-mono);font-size:14.5px;letter-spacing:.04em;border-radius:12px;
+  transition:background .2s var(--ease);
+}
+.foamletter__input::placeholder{color:rgba(240,234,214,.7)}
+.foamletter__input:focus{background:#7E9776}
+.foamletter__submit{
+  padding:24px 38px;border-radius:12px;
+  background:var(--amber);color:var(--ink);
+  font-family:var(--font-mono);font-weight:600;font-size:14.5px;letter-spacing:.04em;
+  white-space:nowrap;
+  transition:background .2s var(--ease),transform .2s var(--ease);
+}
+.foamletter__submit:hover{background:var(--amber-deep);transform:translateY(-1px)}
+.foamletter__legal{
+  margin-top:40px;
+  font-family:var(--font-sans);font-size:14px;line-height:1.6;font-weight:300;
+  color:rgba(240,234,214,.85);
+}
+.foamletter__legal b{font-weight:600;color:var(--cream)}
+
+/* ─── FOOTER ─── */
+.foot{
+  background:var(--night);color:var(--cream);
+  padding:40px var(--pad-x) 32px;
+  border-top:1px solid rgba(240,234,214,.08);
+}
+.foot__inner{
+  max-width:var(--inner);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,234,214,.55);
+}
+.foot__inner a:hover{color:var(--amber)}
+.foot__links{display:flex;gap:18px;flex-wrap:wrap}
+
+/* ─── CUSTOM CURSOR ─── */
+.cursor{
+  position:fixed;top:0;left:0;width:14px;height:14px;
+  background:var(--sage-deep);border-radius:2px;
+  pointer-events:none;z-index:9999;
+  will-change:transform;transform:translate(-50px,-50px);
+  transition:width .25s var(--ease),height .25s var(--ease),background .2s var(--ease),opacity .25s var(--ease);
+  opacity:0;
+}
+.cursor.is-visible{opacity:1}
+.cursor.is-hover{width:22px;height:22px;background:var(--amber)}
+@media (hover:hover) and (pointer:fine){
+  *{cursor:none}
+  input,textarea,select{cursor:auto}
+}
+@media (hover:none),(pointer:coarse){.cursor{display:none}}
+@media (prefers-reduced-motion:reduce){.cursor{display:none}}
+
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:2px solid var(--amber);outline-offset:3px;border-radius:var(--rad-sm);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="inner nav__inner">
+    <a href="index.html" class="brand" aria-label="BeerMyself">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 30 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 26 C 5 19, 1 13, 4 8 C 7 3, 12 4, 15 9 C 18 4, 23 3, 26 8 C 29 13, 25 19, 15 26 Z" fill="#F5A800" stroke="#F0EAD6" stroke-width="1.4"/>
+          <circle cx="11" cy="10" r="2.2" fill="#F0EAD6"/>
+          <circle cx="19" cy="10" r="2.2" fill="#F0EAD6"/>
+          <circle cx="15" cy="13" r="1.6" fill="#F0EAD6"/>
+        </svg>
+      </span>
+      <span><b>Beer</b>Myself</span>
+    </a>
+    <nav class="nav__menu" aria-label="Primary">
+      <a href="/manifeste">Manifeste</a>
+      <a href="index.html" class="active">Magazine</a>
+      <a href="/scene">Scène</a>
+      <a href="/ideas-box">Ideas Box</a>
+      <a href="/ca-mousse">Ça Mousse</a>
+      <a href="/a-propos">À propos</a>
+    </nav>
+    <div class="nav__right">
+      <button class="nav__icon" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="/ca-mousse" class="btn--submit">S'abonner</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO ARTICLE -->
+<section class="art-hero">
+  <img class="art-hero__image" src="brand_assets/featured-1.png" alt="Bouteille IPA Apex et verre tulipe">
+  <div class="art-hero__overlay"></div>
+  <div class="art-hero__content">
+    <div class="art-hero__eyebrow">Brassage · Belgique</div>
+    <h1 class="art-hero__title">Hops &amp; <em>Hard-Lines</em>,<br>l'IPA <span class="leaf">Apex</span>.</h1>
+    <p class="art-hero__lead">Une relecture minimaliste et industrielle d'une bière artisanale, qui transforme l'élémentaire en geste sculptural.</p>
+  </div>
+</section>
+
+<!-- META BAR -->
+<section class="inner">
+  <div class="art-meta">
+    <div class="art-meta__author">
+      <div class="art-meta__avatar" aria-hidden="true"></div>
+      <div>
+        <div class="art-meta__name">Par <b>Apolline Vermeer</b></div>
+        <div class="art-meta__details">14 mai 2026 · 8 min de lecture</div>
+      </div>
+    </div>
+    <div class="art-meta__actions">
+      <button class="art-meta__like" aria-label="J'aime"><span class="heart">♥</span> 248</button>
+      <button class="art-meta__share" aria-label="Partager">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+        Partager
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<article class="art-body">
+  <p class="art-body__lead">Trois mois passés dans la salle de brassage de l'abbaye de Saint-Houblon. On suit la fermentation ouverte d'un IPA à 8,5 %, des levures sauvages aux notes de coing et de poire confite. Un récit fait de patience, de bois humide et de l'odeur du wort qui frappe le pavé à l'aube.</p>
+
+  <h2>L'origine d'une <em>obsession</em></h2>
+  <p>Tout a commencé dans une cave humide près de Gand, où j'ai rencontré Tobias — brasseur de père en fils, troisième génération. Son obsession : extraire d'un seul houblon belge tout ce qu'il avait à dire, sans détours, sans concessions. <em>« On a passé l'âge des bières qui crient leur amertume »</em>, m'a-t-il glissé au-dessus d'une cuve de 2 hl encore tiède.</p>
+  <p>L'idée du projet <strong>Apex</strong> naît d'une frustration partagée. Trop d'IPA crient. Trop peu savent murmurer. Et si on traitait le houblon comme un grand cru — comme une matière sculptable, pas un ingrédient brut ? Trois mois plus tard, j'avais ma réponse, et un cahier rempli de notes au crayon HB qui sentaient le malt et le café froid.</p>
+
+  <h2>Trois mois en <em>cuve ouverte</em></h2>
+  <p>La cuve ouverte, c'est le pari de Tobias. La levure y respire, attrape ce qui flotte dans l'air de l'abbaye — bois mouillé, lichen, parfois une trace de pollen quand la fenêtre du grenier reste ouverte. C'est risqué. C'est nécessaire.</p>
+  <p>On commence par un wort à 14 °P, un mélange de Pilsner belge et de Vienne torréfié juste assez pour donner une croûte. La levure <strong>1318 (London Ale III)</strong> prend le relais. Pendant douze jours, on observe — sans intervenir. La mousse forme un chapeau orangé, dense, vivant. Elle respire avec nous.</p>
+
+  <figure class="art-body__figure">
+    <img src="brand_assets/card-canettes.png" alt="Trois canettes vintage de bière artisanale">
+    <figcaption>Jour 7. La cave respire à 18°C. Le krausen tient debout comme une vague figée.</figcaption>
+  </figure>
+
+  <blockquote class="pullquote">« La levure ne demande rien d'autre qu'un peu de patience et beaucoup d'attention. »</blockquote>
+
+  <h2>Le <em>dry-hopping</em> à l'aube</h2>
+  <p>L'ajout de houblons en fin de fermentation — le fameux <a href="#">dry-hopping</a> — se joue à la minute près. Trop tôt, et les arômes volatils se perdent dans le CO₂ qui s'échappe. Trop tard, et on extrait l'amertume au lieu du parfum.</p>
+  <p>Tobias le fait toujours à 5 h du matin. À cette heure, la cave est froide, calme, et la levure dort. Le houblon Mosaic — variété américaine cultivée en Wallonie depuis cinq ans — y déploie ses notes de mangue verte et de pin résineux. Le geste est rapide : on soulève le chapeau de mousse, on verse, on referme. Cinq minutes, montre en main.</p>
+
+  <aside class="tasting">
+    <div class="tasting__head"><span class="tasting__dot"></span> Carte de dégustation</div>
+    <dl class="tasting__list">
+      <div class="tasting__row"><dt>Couleur</dt><dd>Dorée trouble, halo blanc cassé persistant.</dd></div>
+      <div class="tasting__row"><dt>Nez</dt><dd>Mangue verte, pin résineux, miel d'acacia, soupçon de coriandre fraîche.</dd></div>
+      <div class="tasting__row"><dt>Bouche</dt><dd>Attaque vive, agrumes mûrs, amertume crayeuse en finale.</dd></div>
+      <div class="tasting__row"><dt>Spécifications</dt><dd>8,5 % alc. · IBU 62 · cuve ouverte 12 jours · houblon Mosaic.</dd></div>
+    </dl>
+  </aside>
+
+  <h2>Ce que ça nous <em>apprend</em></h2>
+  <p>L'IPA Apex n'est pas une bière facile. Elle demande de l'attention au moment où on la boit — fraîche, sans rite, dans un verre tulipe qui concentre les arômes au nez. Elle n'aime pas qu'on la bouscule.</p>
+  <p>Mais surtout, elle nous rappelle que l'artisanat n'est pas une posture marketing. C'est un choix quotidien — celui de ralentir, d'écouter la levure, de respecter le temps qu'il faut. Tobias le résume autrement : <em>« On ne brasse pas une bière. On la laisse arriver. »</em></p>
+</article>
+
+<!-- END OF ARTICLE -->
+<section class="art-end">
+  <div class="art-end__tags">
+    <a href="#" class="tag">IPA</a>
+    <a href="#" class="tag">Brassage</a>
+    <a href="#" class="tag">Belgique</a>
+    <a href="#" class="tag">Houblon Mosaic</a>
+    <a href="#" class="tag">Cuve ouverte</a>
+  </div>
+
+  <div class="art-end__bio">
+    <div class="art-meta__avatar" aria-hidden="true"></div>
+    <div>
+      <div class="art-end__bio-name">Apolline Vermeer</div>
+      <p class="art-end__bio-text">Écrit sur la culture brassicole depuis huit ans. Basée à Bruxelles, visite les brasseries belges plus souvent qu'elle ne ferme les yeux.</p>
+      <a href="#" class="art-end__bio-follow">Tous ses récits →</a>
+    </div>
+  </div>
+
+  <nav class="art-end__nav" aria-label="Navigation entre articles">
+    <a href="#" class="art-end__nav-link prev">
+      <span class="art-end__nav-label">← Précédent</span>
+      <span class="art-end__nav-title">Brasser une Saison de mai chez toi en 5 étapes</span>
+    </a>
+    <a href="#" class="art-end__nav-link next">
+      <span class="art-end__nav-label">Suivant →</span>
+      <span class="art-end__nav-title">Récolter du houblon sauvage dans les Vosges</span>
+    </a>
+  </nav>
+</section>
+
+<!-- RELATED -->
+<section class="related inner">
+  <div class="s-head">
+    <div class="s-head__title">À lire ensuite</div>
+    <a href="index.html" class="s-head__link">Tout voir →</a>
+  </div>
+  <section class="gallery">
+    <article class="card">
+      <div class="card__media">
+        <span class="card__like"><span class="heart">♥</span> 412</span>
+        <span class="card__cat dark">Décryptages</span>
+        <div class="art art--amber"><div><div class="art__big"><em>Hazy</em></div><div class="art__sub">IPA · 6.8%</div></div></div>
+      </div>
+      <div class="card__rubrique">Décryptages</div>
+      <h3 class="card__title">Dix <em>Hazy IPA</em> qu'on a aimées cette saison</h3>
+      <div class="card__meta">Par <b>Léo Rambert</b></div>
+    </article>
+    <article class="card">
+      <div class="card__media">
+        <span class="card__like"><span class="heart">♥</span> 287</span>
+        <span class="card__cat paper">Carnets</span>
+        <div class="art art--mix-1"><div><div class="art__big">Gent <em>&amp;</em><br>Brugge</div><div class="art__sub">Road trip · 72h</div></div></div>
+      </div>
+      <div class="card__rubrique">Carnets</div>
+      <h3 class="card__title">72 heures à arpenter les <em>brasseries</em> flamandes</h3>
+      <div class="card__meta">Par <b>Camille Mahieu</b></div>
+    </article>
+    <article class="card">
+      <div class="card__media">
+        <span class="card__like"><span class="heart">♥</span> 521</span>
+        <span class="card__cat sage">Portraits</span>
+        <div class="art art--mix-2"><div><div class="art__big">Saison<br><em>de Mai</em></div><div class="art__sub">Recette · 5 gal</div></div></div>
+      </div>
+      <div class="card__rubrique">Portraits</div>
+      <h3 class="card__title">Brasser une <em>Saison de mai</em> chez toi en 5 étapes</h3>
+      <div class="card__meta">Par <b>Pierre-Henri Cosson</b></div>
+    </article>
+  </section>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="foamletter">
+  <div class="foamletter__inner">
+    <div class="foamletter__eyebrow">Newsletter · Hebdomadaire</div>
+    <h2 class="foamletter__title">Ça Mousse</h2>
+    <p class="foamletter__sub">L'intelligence du craft français, chaque semaine. Décryptages de la scène, mouvements des brasseries, signaux faibles, lectures stratégiques. Pour celles et ceux qui font tourner le craft.</p>
+    <form class="foamletter__form" onsubmit="event.preventDefault()">
+      <input class="foamletter__input" type="email" placeholder="ton.email" aria-label="Email">
+      <button class="foamletter__submit" type="submit">Rejoindre Ça Mousse</button>
+    </form>
+    <a href="https://camousse.substack.com/p/le-sans-alcool-francais-passe-a-loffensive" class="foamletter__archive" target="_blank" rel="noopener">Lire un numéro récent →</a>
+    <p class="foamletter__legal">Un round-up hebdo signé <b>BeerMyself</b>.<br>On respecte ta boîte mail. Désabonnement en un clic.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot__inner">
+    <div>© 2026 BeerMyself · Brassé à Bordeaux</div>
+    <nav class="foot__links">
+      <a href="#">Instagram</a>
+      <a href="https://camousse.substack.com">Ça Mousse</a>
+      <a href="#">À propos</a>
+      <a href="#">Mentions</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- Custom sage cursor -->
+<div class="cursor" aria-hidden="true"></div>
+<script>
+(function(){
+  const cursor = document.querySelector('.cursor');
+  if(!cursor) return;
+  let mx=0,my=0,cx=0,cy=0,visible=false;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    if(!visible){ cursor.classList.add('is-visible'); visible=true; }
+  }, {passive:true});
+  document.addEventListener('mouseleave', () => { cursor.classList.remove('is-visible'); visible=false; });
+  const interactive = 'a,button,input,[role="button"],.card,.art-end__nav-link';
+  document.addEventListener('mouseover', e => { if(e.target.closest(interactive)) cursor.classList.add('is-hover'); });
+  document.addEventListener('mouseout', e => { if(e.target.closest(interactive)) cursor.classList.remove('is-hover'); });
+  function tick(){
+    cx += (mx - cx) * 0.22;
+    cy += (my - cy) * 0.22;
+    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+
+</body>
+</html>
